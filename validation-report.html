@@ -1,6 +1,4 @@
-from pathlib import Path
-
-html = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -19,7 +17,6 @@ html = """<!DOCTYPE html>
       --purple:#8d5cff;
       --green:#24d3a3;
       --warn:#ffcc66;
-      --danger:#ff8c8c;
       --shadow:0 0 0 1px rgba(122,151,255,.15), 0 20px 60px rgba(8,12,28,.7), inset 0 1px 0 rgba(255,255,255,.03);
       --radius:22px;
       --max:1320px;
@@ -106,7 +103,6 @@ html = """<!DOCTYPE html>
 
     .section{padding:28px 0;border-top:1px solid rgba(120,145,255,.1)}
     .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 
     .card{
@@ -239,7 +235,7 @@ html = """<!DOCTYPE html>
     }
 
     @media (max-width: 1080px){
-      .hero-grid,.grid-2,.grid-3,.grid-4,.footer-grid{grid-template-columns:1fr}
+      .hero-grid,.grid-2,.grid-4,.footer-grid{grid-template-columns:1fr}
       .menu{display:none}
     }
   </style>
@@ -305,17 +301,17 @@ html = """<!DOCTYPE html>
           <div class="card metric">
             <div class="value">0.2657</div>
             <div class="label">Mean delta</div>
-            <div class="sub">Full A–F matrix aggregate</div>
+            <div class="sub">Full A-F matrix aggregate</div>
           </div>
           <div class="card metric">
             <div class="value">0.6237</div>
             <div class="label">Cohen's d</div>
-            <div class="sub">Full A–F matrix aggregate</div>
+            <div class="sub">Full A-F matrix aggregate</div>
           </div>
           <div class="card metric">
             <div class="value">0.0106</div>
             <div class="label">Sign-test p-value</div>
-            <div class="sub">Full A–F matrix aggregate</div>
+            <div class="sub">Full A-F matrix aggregate</div>
           </div>
           <div class="card metric">
             <div class="value">18 / 5 / 13</div>
@@ -398,7 +394,7 @@ html = """<!DOCTYPE html>
 
     <section class="section">
       <div class="container">
-        <h2>A–F matrix overview</h2>
+        <h2>A-F matrix overview</h2>
         <div class="card tracks">
           <h3>Track uplift means</h3>
 
@@ -436,11 +432,44 @@ html = """<!DOCTYPE html>
 
         <div style="height:18px"></div>
 
+        <div class="card">
+          <h3>How to read these passes in plain English</h3>
+          <ul>
+            <li><strong>Generality:</strong> EvoMind is not only good at one narrow task. It can perform across different kinds of problems instead of succeeding only in a single scripted lane.</li>
+            <li><strong>Reasoning:</strong> EvoMind can work through a problem step by step, connect information, and reach an answer through logic rather than only surface pattern matching.</li>
+            <li><strong>Planning:</strong> EvoMind can break larger goals into smaller actions, decide what to do first, and move through a sequence in a useful order.</li>
+            <li><strong>Tool use:</strong> EvoMind can use external tools, systems, or interfaces when needed instead of being limited to text-only responses.</li>
+            <li><strong>Robustness:</strong> EvoMind keeps working reliably even when tasks are messy, imperfect, or somewhat different from what it has seen before.</li>
+            <li><strong>Adaptability:</strong> EvoMind can adjust when the situation changes instead of failing the moment conditions move off the expected path.</li>
+            <li><strong>Safety:</strong> EvoMind is measured not only by whether it succeeds, but whether it stays within constraints, avoids unsafe behavior, and remains governable.</li>
+            <li><strong>Traceability:</strong> The system's actions and decisions can be inspected afterward, which is important for trust, auditing, and debugging.</li>
+          </ul>
+        </div>
+
+        <div style="height:18px"></div>
+
+        <div class="card">
+          <h3>How to read the A-F tracks</h3>
+          <p>
+            Each track measures a different part of performance. A positive score means EvoMind outperformed the comparison baseline on that family of tasks. A negative score means that area still needs work.
+          </p>
+          <ul>
+            <li><strong>Track A:</strong> Core abstraction and general thinking quality.</li>
+            <li><strong>Track B:</strong> Breadth and consistency on additional reasoning-style tasks.</li>
+            <li><strong>Track C:</strong> A tougher area where EvoMind still shows weaker margins and shallower exploration.</li>
+            <li><strong>Track D:</strong> Stronger structured task execution and decision quality.</li>
+            <li><strong>Track E:</strong> Good performance in more demanding or mixed scenarios, though still somewhat uneven.</li>
+            <li><strong>Track F:</strong> The strongest area in the current matrix, showing the largest uplift over baseline.</li>
+          </ul>
+        </div>
+
+        <div style="height:18px"></div>
+
         <div class="grid-4">
           <div class="card metric">
             <div class="value">36</div>
             <div class="label">Tasks</div>
-            <div class="sub">Full A–F matrix total</div>
+            <div class="sub">Full A-F matrix total</div>
           </div>
           <div class="card metric">
             <div class="value">18</div>
@@ -494,7 +523,7 @@ html = """<!DOCTYPE html>
           <h3>Methodology summary</h3>
           <ul>
             <li>Certification harness run with reproducible command-line execution.</li>
-            <li>Behavioral matrix evaluated across tracks A–F.</li>
+            <li>Behavioral matrix evaluated across tracks A-F.</li>
             <li>Per-task results, routing telemetry, and diagnostic traces preserved as artifacts.</li>
             <li>Internal evidence packet explicitly separates internal PASS from external AGI claims.</li>
           </ul>
