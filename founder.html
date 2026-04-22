@@ -485,7 +485,7 @@
     }
 
     .portrait-card{
-      min-height:220px;
+      min-height:auto;
       border-radius:22px;
       background:
         radial-gradient(circle at 30% 25%, rgba(91,167,255,.25), transparent 18%),
@@ -493,29 +493,48 @@
         linear-gradient(180deg, rgba(14,24,54,.92), rgba(9,16,35,.92));
       border:1px solid rgba(127,152,255,.16);
       padding:24px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
+    }
+
+    .portrait-card > div{
+      display:grid;
+      grid-template-columns:96px minmax(0,1fr);
+      gap:18px;
+      align-items:center;
     }
 
     .avatar{
-      width:86px;
-      height:86px;
+      width:96px;
+      height:96px;
+      min-width:96px;
+      min-height:96px;
       border-radius:22px;
       display:flex;
       align-items:center;
       justify-content:center;
       background:linear-gradient(135deg, rgba(57,215,255,.12), rgba(155,93,255,.16));
       border:1px solid rgba(126,151,255,.18);
-      color:#ecf3ff;
-      font-size:26px;
-      font-weight:800;
-      letter-spacing:.04em;
       box-shadow:0 0 0 1px rgba(122,151,255,.1), 0 20px 50px rgba(8,12,28,.4);
+      overflow:hidden;
+      position:relative;
+      flex:0 0 auto;
+    }
+
+    .avatar-photo{
+      padding:0;
+      background:linear-gradient(135deg, rgba(57,215,255,.18), rgba(141,92,255,.18));
+    }
+
+    .avatar-photo img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+      object-position:center 18%;
+      border-radius:inherit;
     }
 
     .portrait-name{
-      margin:18px 0 8px;
+      margin:0 0 8px;
       font-size:30px;
       line-height:1.08;
       letter-spacing:-.03em;
@@ -958,6 +977,20 @@
       .logo{ font-size:24px; }
       .cta{ padding:14px 18px; }
       .metric-row{ grid-template-columns:1fr; }
+
+      .portrait-card > div{
+        grid-template-columns:80px minmax(0,1fr);
+        gap:14px;
+      }
+
+      .avatar{
+        width:80px;
+        height:80px;
+        min-width:80px;
+        min-height:80px;
+        border-radius:20px;
+      }
+
       .icon{
         width:74px;
         min-width:74px;
@@ -1023,12 +1056,14 @@
                 <div class="portrait-card">
                   <div>
                     <div class="avatar avatar-photo">
-			<img src="Gabriel-headshot.jpg"/> 
-		    </div>
-                    <h2 class="portrait-name">Gabriel Allit</h2>
-                    <div class="portrait-role">
-                      Founder, Owner, and CTO of SALT19 LLC<br />
-                      Senior Commercial UAS Pilot – Engineering (Geospatial and Remote Sensing)
+                      <img src="Gabriel-headshot.jpg" alt="Gabriel Vitor Allit headshot" />
+                    </div>
+                    <div>
+                      <h2 class="portrait-name">Gabriel Allit</h2>
+                      <div class="portrait-role">
+                        Founder, Owner, and CTO of SALT19 LLC<br />
+                        Senior Commercial UAS Pilot – Engineering (Geospatial and Remote Sensing)
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1157,7 +1192,7 @@
               <div>
                 <h3>Senior Commercial UAS – Engineering and Survey</h3>
                 <p>
-                  He currently serves top-tier EPC contractor specializing in utility-scale solar, energy storage, and renewable infrastructure in a geospatial and remote sensing capacity, contributing to technically demanding engineering workflows and data-driven operations, data collection, data processing, data analysis, custom python tooling.
+                  He currently serves a top-tier EPC contractor specializing in utility-scale solar, energy storage, and renewable infrastructure in a geospatial and remote sensing capacity, contributing to technically demanding engineering workflows and data-driven operations, data collection, data processing, data analysis, and custom Python tooling.
                 </p>
               </div>
             </div>
@@ -1229,8 +1264,7 @@
             <div class="quote-card tilt" data-reveal="right">
               <p class="eyebrow">Beyond Work</p>
               <div class="quote">
-                In addition to his technical work, Gabriel Allit is the author of the children’s book <em>The Pretendigator and Flower Picking Friends and the sUAS Pilot Logbook: Part 107 Edition.</em>
-
+                In addition to his technical work, Gabriel Allit is the author of the children’s book <em>The Pretendigator and Flower Picking Friends</em> and <em>the sUAS Pilot Logbook: Part 107 Edition</em>.
               </div>
               <div class="quote-meta">Builder • veteran • engineer • author</div>
             </div>
