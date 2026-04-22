@@ -1,0 +1,5 @@
+http://salt19.com/* https://salt19.com/:splat 301
+https://www.salt19.com/* https://salt19.com/:splat 301
+/about /about.html 301
+/founder /founder.html 301
+/validation /validation-report.html 301
