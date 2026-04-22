@@ -652,11 +652,11 @@
     }
 
     .icon{
-      width:72px;
-      min-width:72px;
+      width:88px;
+      min-width:88px;
+      height:72px;
       min-height:72px;
-      height:auto;
-      padding:10px 8px;
+      padding:10px 10px;
       border-radius:16px;
       display:flex;
       align-items:center;
@@ -664,16 +664,18 @@
       text-align:center;
       background:linear-gradient(135deg, rgba(57,215,255,.08), rgba(155,93,255,.1));
       border:1px solid rgba(126,151,255,.18);
-      font-size:10px;
-      line-height:1.15;
+      font-size:11px;
+      line-height:1.05;
       font-weight:800;
-      letter-spacing:.08em;
+      letter-spacing:.06em;
       text-transform:uppercase;
       margin-bottom:18px;
       animation:iconHover 5s ease-in-out infinite;
-      white-space:normal;
-      overflow-wrap:anywhere;
-      word-break:break-word;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      word-break:keep-all;
+      overflow-wrap:normal;
     }
 
     .mini-list{
@@ -960,11 +962,13 @@
       .logo{ font-size:24px; }
       .cta{ padding:14px 18px; }
       .icon{
-        width:64px;
-        min-width:64px;
+        width:74px;
+        min-width:74px;
+        height:64px;
         min-height:64px;
         font-size:9px;
         padding:8px 6px;
+        letter-spacing:.04em;
       }
     }
   </style>
