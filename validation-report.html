@@ -1,0 +1,560 @@
+from pathlib import Path
+
+html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SALT19 | EvoMind Validation Report</title>
+  <style>
+    :root{
+      --bg:#040817;
+      --panel:#0a1126;
+      --panel-2:#0c1530;
+      --line:rgba(102,132,255,.18);
+      --text:#eef3ff;
+      --muted:#9ca8c7;
+      --blue:#5ba7ff;
+      --cyan:#39d7ff;
+      --purple:#8d5cff;
+      --green:#24d3a3;
+      --warn:#ffcc66;
+      --danger:#ff8c8c;
+      --shadow:0 0 0 1px rgba(122,151,255,.15), 0 20px 60px rgba(8,12,28,.7), inset 0 1px 0 rgba(255,255,255,.03);
+      --radius:22px;
+      --max:1320px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;padding:0;
+      background:
+        radial-gradient(circle at 70% 18%, rgba(72,100,255,.18), transparent 18%),
+        radial-gradient(circle at 74% 26%, rgba(178,70,255,.18), transparent 22%),
+        linear-gradient(180deg,#030712 0%, #040918 38%, #040917 100%);
+      color:var(--text);
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      scroll-behavior:smooth
+    }
+
+    body::before{
+      content:"";
+      position:fixed;inset:0;pointer-events:none;opacity:.35;
+      background:
+        repeating-linear-gradient(120deg, rgba(59,215,255,.05) 0 1px, transparent 1px 16px),
+        linear-gradient(90deg, rgba(65,98,255,.06), transparent 35%, rgba(169,92,255,.07));
+      mask-image: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.2));
+    }
+
+    a{text-decoration:none;color:inherit}
+    .container{width:min(calc(100% - 48px), var(--max));margin:0 auto}
+    .muted{color:var(--muted)}
+    .eyebrow{
+      color:var(--blue);
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:13px;
+      font-weight:800;
+      margin:0 0 14px
+    }
+
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(16px);
+      background:linear-gradient(180deg, rgba(4,8,23,.88), rgba(4,8,23,.54));
+      border-bottom:1px solid rgba(130,154,255,.12);
+    }
+
+    .nav{
+      height:88px;display:flex;align-items:center;justify-content:space-between;gap:24px
+    }
+
+    .logo{font-size:28px;font-weight:800;letter-spacing:.02em}
+    .logo span{color:#dfe7ff}
+    .menu{display:flex;gap:34px;align-items:center}
+    .menu a{
+      color:#c8d3f6;font-weight:600;font-size:15px;padding:6px 0;position:relative
+    }
+    .menu a.active::after{
+      content:"";position:absolute;left:0;right:0;bottom:-10px;height:2px;border-radius:999px;
+      background:linear-gradient(90deg,var(--blue),var(--purple));
+      box-shadow:0 0 14px rgba(99,124,255,.8);
+    }
+
+    .cta{
+      display:inline-flex;align-items:center;gap:12px;padding:16px 24px;border-radius:14px;
+      background:linear-gradient(135deg, #2e66ff, #6a42ff);
+      font-weight:700;box-shadow:0 18px 40px rgba(47,111,255,.35), inset 0 1px 0 rgba(255,255,255,.18)
+    }
+
+    .hero{padding:64px 0 30px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start}
+    h1{
+      margin:0;
+      font-size:clamp(46px,6vw,84px);
+      line-height:.95;
+      letter-spacing:-.05em;
+      color:#c9ddff;
+    }
+    .lead{
+      margin:24px 0 0;
+      max-width:860px;
+      color:#bac7e8;
+      font-size:22px;
+      line-height:1.6
+    }
+
+    .section{padding:28px 0;border-top:1px solid rgba(120,145,255,.1)}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+
+    .card{
+      background:linear-gradient(180deg, rgba(12,21,48,.88), rgba(8,14,32,.88));
+      border:1px solid rgba(126,151,255,.16);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px;
+      position:relative;
+      overflow:hidden
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;left:0;right:0;top:0;height:2px;
+      background:linear-gradient(90deg, rgba(57,215,255,.0), rgba(57,215,255,.8), rgba(155,93,255,.85), rgba(57,215,255,0));
+      opacity:.95;
+    }
+
+    h2{margin:0 0 16px;font-size:34px;letter-spacing:-.03em}
+    h3{margin:0 0 12px;font-size:22px}
+    p{margin:0 0 12px;color:#c9d3ef;line-height:1.68}
+    ul{margin:10px 0 0 18px;color:#c9d3ef;line-height:1.72}
+    li{margin-bottom:8px}
+
+    .badge-row{display:flex;flex-wrap:wrap;gap:12px}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(36,211,163,.12);
+      color:#8cf0cf;
+      border:1px solid rgba(36,211,163,.28);
+      font-size:14px;font-weight:700
+    }
+    .badge.warn{
+      background:rgba(255,204,102,.10);
+      color:#ffd98e;
+      border:1px solid rgba(255,204,102,.24);
+    }
+
+    .metric{display:flex;flex-direction:column;gap:10px;min-height:150px}
+    .metric .value{font-size:54px;font-weight:800;line-height:1;color:#53e0c0}
+    .metric .label{color:#dce4ff;font-size:18px;font-weight:700}
+    .metric .sub{color:var(--muted);font-size:14px}
+
+    .hero-stat{
+      display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px
+    }
+    .hero-kpi{
+      padding:20px;border-radius:18px;
+      background:rgba(10,17,38,.7);
+      border:1px solid rgba(126,151,255,.14)
+    }
+    .hero-kpi b{display:block;font-size:36px;margin-bottom:8px}
+    .hero-kpi span{color:var(--muted);font-size:14px;line-height:1.5;display:block}
+
+    .tracks .row{
+      display:grid;
+      grid-template-columns:80px 1fr 100px;
+      gap:14px;
+      align-items:center;
+      margin-bottom:14px
+    }
+    .bar{
+      height:12px;border-radius:999px;background:rgba(255,255,255,.06);
+      border:1px solid rgba(126,151,255,.12);overflow:hidden
+    }
+    .bar > span{
+      display:block;height:100%;border-radius:999px;
+      background:linear-gradient(90deg, var(--cyan), var(--purple));
+    }
+    .bar.negative > span{
+      background:linear-gradient(90deg, #ff8c8c, #ffb26b);
+    }
+
+    .summary-table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius:18px;
+      background:rgba(10,17,38,.56);
+      border:1px solid rgba(126,151,255,.14)
+    }
+    .summary-table th,.summary-table td{
+      padding:16px 18px;
+      text-align:left;
+      border-bottom:1px solid rgba(126,151,255,.1)
+    }
+    .summary-table th{
+      color:#dfe8ff;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      background:rgba(255,255,255,.02)
+    }
+    .summary-table td{
+      color:#c9d3ef;
+      font-size:15px
+    }
+
+    .quote{
+      font-size:20px;
+      line-height:1.6;
+      color:#e8efff;
+    }
+
+    .cta-panel{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+      flex-wrap:wrap
+    }
+
+    footer{
+      border-top:1px solid rgba(120,145,255,.1);
+      padding:36px 0 54px;
+      margin-top:10px
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr .8fr 1fr;
+      gap:18px
+    }
+    .footer-grid h5{
+      margin:0 0 14px;font-size:14px;text-transform:uppercase;letter-spacing:.12em;color:#8ca0d4
+    }
+    .footer-grid a,.footer-grid p{
+      display:block;margin:10px 0;color:#cfd7f0
+    }
+
+    @media (max-width: 1080px){
+      .hero-grid,.grid-2,.grid-3,.grid-4,.footer-grid{grid-template-columns:1fr}
+      .menu{display:none}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo"><span>SALT19</span></div>
+      <nav class="menu">
+        <a href="/index.html">Home</a>
+        <a href="/index.html#capabilities">Capabilities</a>
+        <a href="/index.html#architecture">Architecture</a>
+        <a href="/index.html#use-cases">Use Cases</a>
+        <a class="active" href="/validation-report.html">Validation</a>
+      </nav>
+      <a class="cta" href="mailto:info@salt19.com">Request Demo →</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Validation & Trust</p>
+          <h1>Internal behavioral certification passed.</h1>
+          <p class="lead">
+            EvoMind has produced strong internal behavioral certification and reproducible evidence across a six-track evaluation matrix. The public-facing position is intentionally disciplined: internal certification is strong, but external AGI is not yet established by broad scientific consensus.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="badge-row">
+            <div class="badge">Internal certification verdict: PASS</div>
+            <div class="badge warn">External AGI verdict: Not yet established</div>
+          </div>
+
+          <div class="hero-stat">
+            <div class="hero-kpi">
+              <b>0.1445</b>
+              <span>Latest internal certification packet mean delta</span>
+            </div>
+            <div class="hero-kpi">
+              <b>8.85</b>
+              <span>Latest internal certification packet effect size</span>
+            </div>
+            <div class="hero-kpi">
+              <b>0.0</b>
+              <span>Latest internal certification packet p-value</span>
+            </div>
+            <div class="hero-kpi">
+              <b>1.0</b>
+              <span>Trace coverage in latest internal certification packet</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Executive summary</h2>
+        <div class="grid-4">
+          <div class="card metric">
+            <div class="value">0.2657</div>
+            <div class="label">Mean delta</div>
+            <div class="sub">Full A–F matrix aggregate</div>
+          </div>
+          <div class="card metric">
+            <div class="value">0.6237</div>
+            <div class="label">Cohen's d</div>
+            <div class="sub">Full A–F matrix aggregate</div>
+          </div>
+          <div class="card metric">
+            <div class="value">0.0106</div>
+            <div class="label">Sign-test p-value</div>
+            <div class="sub">Full A–F matrix aggregate</div>
+          </div>
+          <div class="card metric">
+            <div class="value">18 / 5 / 13</div>
+            <div class="label">Wins / Losses / Ties</div>
+            <div class="sub">Across 36 tasks</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-2">
+        <div class="card">
+          <h3>What the evidence currently supports</h3>
+          <ul>
+            <li>Behavioral generality gate PASS under the internal certification harness.</li>
+            <li>Reliability and traceability gates PASS in the latest certification packet.</li>
+            <li>Zero timeout, zero zero-proposal, and zero leakage rates in the latest certification packet.</li>
+            <li>Full trace coverage and strong routing integrity in the latest certification packet.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>What is not yet being claimed</h3>
+          <ul>
+            <li>Not presented as externally established AGI.</li>
+            <li>Not yet independently replicated by third-party labs.</li>
+            <li>Not yet validated across broad external benchmark ecosystems.</li>
+            <li>Not yet publication-grade evidence of open-world AGI by consensus standards.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Primary evidence summary</h2>
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Evidence area</th>
+              <th>Result</th>
+              <th>Interpretation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Internal certification verdict</td>
+              <td>PASS</td>
+              <td>Strong internal result under repository certification harness.</td>
+            </tr>
+            <tr>
+              <td>Latest packet mean delta</td>
+              <td>0.1444772727</td>
+              <td>Positive uplift versus baseline within the internal evaluation packet.</td>
+            </tr>
+            <tr>
+              <td>Latest packet effect size</td>
+              <td>8.853606123</td>
+              <td>Very strong internal separation in the latest packet.</td>
+            </tr>
+            <tr>
+              <td>Reliability</td>
+              <td>0 timeout / 0 zero-proposal / 0 leakage</td>
+              <td>No observed reliability breaks in the latest packet.</td>
+            </tr>
+            <tr>
+              <td>Trace coverage</td>
+              <td>1.0</td>
+              <td>Complete trace coverage in the latest packet.</td>
+            </tr>
+            <tr>
+              <td>Routing accuracy</td>
+              <td>1.0</td>
+              <td>Strong internal route integrity in the latest packet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>A–F matrix overview</h2>
+        <div class="card tracks">
+          <h3>Track uplift means</h3>
+
+          <div class="row">
+            <div>A</div>
+            <div class="bar"><span style="width:18%"></span></div>
+            <div>+0.1167</div>
+          </div>
+          <div class="row">
+            <div>B</div>
+            <div class="bar"><span style="width:12%"></span></div>
+            <div>+0.0778</div>
+          </div>
+          <div class="row">
+            <div>C</div>
+            <div class="bar negative"><span style="width:10%"></span></div>
+            <div>-0.1000</div>
+          </div>
+          <div class="row">
+            <div>D</div>
+            <div class="bar"><span style="width:66%"></span></div>
+            <div>+0.4278</div>
+          </div>
+          <div class="row">
+            <div>E</div>
+            <div class="bar"><span style="width:65%"></span></div>
+            <div>+0.4222</div>
+          </div>
+          <div class="row">
+            <div>F</div>
+            <div class="bar"><span style="width:100%"></span></div>
+            <div>+0.6500</div>
+          </div>
+        </div>
+
+        <div style="height:18px"></div>
+
+        <div class="grid-4">
+          <div class="card metric">
+            <div class="value">36</div>
+            <div class="label">Tasks</div>
+            <div class="sub">Full A–F matrix total</div>
+          </div>
+          <div class="card metric">
+            <div class="value">18</div>
+            <div class="label">Wins</div>
+            <div class="sub">Aggregate matrix outcome</div>
+          </div>
+          <div class="card metric">
+            <div class="value">5</div>
+            <div class="label">Losses</div>
+            <div class="sub">Aggregate matrix outcome</div>
+          </div>
+          <div class="card metric">
+            <div class="value">13</div>
+            <div class="label">Ties</div>
+            <div class="sub">Aggregate matrix outcome</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-2">
+        <div class="card">
+          <h3>Track C diagnostic signal</h3>
+          <p>
+            Track C is the clearest remaining weakness. The diagnostics suggest the issue is not telemetry corruption but shallow exploration and thin decision margins.
+          </p>
+          <ul>
+            <li>Mean depth: 0.5</li>
+            <li>Depth &lt; 2 rate: 0.833333</li>
+            <li>Margin mean: 0.067043</li>
+            <li>Low-margin rate (&lt; 0.05): 0.833333</li>
+            <li>Invalid row count: 0</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Interpretation</h3>
+          <p>
+            The current evidence supports a credible claim of internal certification strength, but it also identifies where engineering effort remains. The strongest public posture is precise and disciplined: publish strengths clearly, publish limits clearly, and avoid overstating external AGI status.
+          </p>
+          <p>
+            This improves credibility with technical partners, evaluators, and serious buyers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-2">
+        <div class="card">
+          <h3>Methodology summary</h3>
+          <ul>
+            <li>Certification harness run with reproducible command-line execution.</li>
+            <li>Behavioral matrix evaluated across tracks A–F.</li>
+            <li>Per-task results, routing telemetry, and diagnostic traces preserved as artifacts.</li>
+            <li>Internal evidence packet explicitly separates internal PASS from external AGI claims.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>External-proof gap</h3>
+          <ul>
+            <li>Independent third-party replication</li>
+            <li>Cross-benchmark generality beyond the internal harness</li>
+            <li>Adversarial and open-world robustness validation</li>
+            <li>Publication-grade review and statistical scrutiny across labs</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="card cta-panel">
+          <div>
+            <h2>Truthful public verdict</h2>
+            <p class="quote">
+              EvoMind has passed internal behavioral certification with strong reliability, traceability, and reproducible uplift in the latest evidence runs. It should be described publicly as a governed cognitive architecture with strong internal certification evidence — not as externally established AGI.
+            </p>
+          </div>
+          <a class="cta" href="mailto:info@salt19.com">Request Demo →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="logo"><span>SALT19</span></div>
+        <p>Building governed, autonomous intelligence for the real world.</p>
+        <p>© 2026 SALT19. All rights reserved.</p>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="/index.html">EvoMind</a>
+        <a href="/index.html#capabilities">Capabilities</a>
+        <a href="/index.html#architecture">Architecture</a>
+        <a href="/validation-report.html">Validation</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="/index.html#about">About</a>
+        <a href="mailto:info@salt19.com">Contact</a>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <a href="/validation-report.html">Validation Report</a>
+        <a href="mailto:info@salt19.com">Request Demo</a>
+      </div>
+      <div>
+        <h5>Stay Connected</h5>
+        <a href="mailto:info@salt19.com">info@salt19.com</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
