@@ -27,7 +27,10 @@
       --ease:cubic-bezier(.22,1,.36,1);
     }
 
-    *{box-sizing:border-box}
+    *, *::before, *::after{
+      box-sizing:border-box;
+    }
+
     html,body{
       margin:0;
       padding:0;
@@ -181,6 +184,37 @@
     .container{width:min(calc(100% - 48px), var(--max));margin:0 auto}
     a{text-decoration:none;color:inherit}
     .muted{color:var(--muted)}
+
+    .card,
+    .arch-node,
+    .mini-card,
+    .metric-card,
+    .orb-node,
+    .side-copy,
+    .stats > *,
+    .cards-4 > *,
+    .features-row > *,
+    .mini-grid > *,
+    .footer-kpis > *,
+    .arch-grid > *,
+    .arch-bottom > *{
+      min-width:0;
+    }
+
+    .card h4,
+    .card h5,
+    .arch-node h5,
+    .orb-node h4,
+    .side-copy h3,
+    .mini-card span,
+    .metric-card span,
+    .card p,
+    .arch-node p,
+    .orb-node p{
+      overflow-wrap:anywhere;
+      word-break:normal;
+      hyphens:auto;
+    }
 
     .eyebrow{
       color:var(--blue);
@@ -350,7 +384,7 @@
 
     .hero-grid{
       display:grid;
-      grid-template-columns:1.05fr 1fr;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
       gap:28px;
       align-items:center;
       min-height:720px;
@@ -506,7 +540,7 @@
 
     .hero-metrics{
       display:grid;
-      grid-template-columns:repeat(3,1fr);
+      grid-template-columns:repeat(3, minmax(0,1fr));
       gap:16px;
       margin-top:26px;
       max-width:720px;
@@ -678,6 +712,7 @@
     .orb-node{
       position:absolute;
       min-width:168px;
+      max-width:220px;
       padding:14px 16px;
       border-radius:14px;
       background:rgba(9,16,37,.72);
@@ -699,7 +734,7 @@
 
     .features-row{
       display:grid;
-      grid-template-columns:repeat(4,1fr);
+      grid-template-columns:repeat(4, minmax(0,1fr));
       gap:18px;
       margin-top:14px;
     }
@@ -721,7 +756,7 @@
 
     .split{
       display:grid;
-      grid-template-columns:380px 1fr;
+      grid-template-columns:320px minmax(0,1fr);
       gap:22px;
       align-items:stretch;
     }
@@ -750,7 +785,12 @@
       box-shadow:0 20px 42px rgba(8,12,28,.36);
     }
 
-    .cards-4{display:grid;gap:18px;grid-template-columns:repeat(4,1fr)}
+    .cards-4{
+      display:grid;
+      gap:18px;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+    }
+
     .card{
       background:linear-gradient(180deg, rgba(12,21,48,.88), rgba(8,14,32,.88));
       border:1px solid rgba(126,151,255,.16);
@@ -797,24 +837,46 @@
     }
 
     .icon{
-      width:54px;
-      height:54px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
+      width:72px;
+      min-width:72px;
+      min-height:72px;
+      height:auto;
+      padding:10px 8px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
       background:linear-gradient(135deg, rgba(57,215,255,.08), rgba(155,93,255,.1));
       border:1px solid rgba(126,151,255,.18);
-      font-size:12px;
+      font-size:10px;
+      line-height:1.15;
       font-weight:800;
-      letter-spacing:.06em;
+      letter-spacing:.08em;
       text-transform:uppercase;
       margin-bottom:18px;
       animation:iconHover 5s ease-in-out infinite;
       transform-origin:center;
+      white-space:normal;
+      overflow-wrap:anywhere;
+      word-break:break-word;
     }
 
-    .card h4{margin:0 0 10px;font-size:29px;line-height:1.1}
-    .card p{margin:0;color:var(--muted);font-size:18px;line-height:1.55}
+    .card h4{
+      margin:0 0 10px;
+      font-size:clamp(22px, 2.1vw, 29px);
+      line-height:1.12;
+      overflow-wrap:anywhere;
+    }
+
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:clamp(16px, 1.2vw, 18px);
+      line-height:1.58;
+      overflow-wrap:anywhere;
+    }
+
     .card a.more{display:inline-block;margin-top:16px;color:var(--blue);font-weight:700}
 
     .arch-diagram{
@@ -848,7 +910,12 @@
     .arch-top h4{margin:0 0 6px;font-size:24px}
     .arch-top p{margin:0;color:var(--muted);font-size:15px}
 
-    .arch-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:18px}
+    .arch-grid{
+      display:grid;
+      grid-template-columns:repeat(6, minmax(0,1fr));
+      gap:16px;
+      margin-bottom:18px;
+    }
     .arch-node{
       min-height:170px;
       padding:18px;
@@ -879,9 +946,20 @@
     .arch-node .icon{margin-bottom:12px}
     .arch-node h5{margin:0 0 8px;font-size:22px}
     .arch-node p{margin:0;color:var(--muted);font-size:16px;line-height:1.45}
-    .arch-bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
-    .stats{display:grid;grid-template-columns:1.2fr 1fr .85fr;gap:18px}
+    .arch-bottom{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:16px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:minmax(280px, 1.15fr) minmax(260px, 1fr) minmax(280px, .95fr);
+      gap:18px;
+      align-items:stretch;
+    }
+
     .score{min-height:400px}
     .big-score{
       font-size:72px;
@@ -938,21 +1016,50 @@
     }
     .ring span{font-size:44px;font-weight:800}
 
-    .mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+    .mini-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(120px, 1fr));
+      gap:14px;
+      margin-top:16px;
+    }
+
     .mini-card{
-      padding:18px;
+      padding:18px 16px;
       border-radius:16px;
       background:rgba(10,17,38,.72);
       border:1px solid rgba(126,151,255,.14);
       transition:transform .28s var(--ease), border-color .28s var(--ease), background .28s var(--ease);
+      min-width:0;
     }
+
     .mini-card:hover{
       transform:translateY(-4px);
       border-color:rgba(126,151,255,.26);
       background:rgba(12,21,48,.92);
     }
-    .mini-card b{display:block;font-size:30px;margin-bottom:6px}
-    .footer-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+
+    .mini-card b{
+      display:block;
+      font-size:clamp(24px, 2vw, 30px);
+      margin-bottom:6px;
+      line-height:1.05;
+    }
+
+    .mini-card span{
+      display:block;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+
+    .footer-kpis{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+      gap:14px;
+      margin-top:16px;
+    }
 
     footer{
       border-top:1px solid rgba(120,145,255,.1);
@@ -969,7 +1076,11 @@
       pointer-events:none;
     }
 
-    .footer-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr .8fr 1fr;gap:18px}
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr .8fr 1fr;
+      gap:18px
+    }
     .footer-grid h5{
       margin:0 0 14px;
       font-size:14px;
@@ -1068,12 +1179,33 @@
       [data-reveal]{opacity:1;transform:none}
     }
 
+    @media (max-width: 1400px){
+      .cards-4,
+      .features-row{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .split{
+        grid-template-columns:320px minmax(0,1fr);
+      }
+    }
+
     @media (max-width: 1180px){
-      .hero-grid,.split,.stats,.footer-grid{grid-template-columns:1fr}
-      .features-row,.cards-4,.arch-grid,.footer-kpis{grid-template-columns:repeat(2,1fr)}
+      .hero-grid,
+      .footer-grid{
+        grid-template-columns:1fr;
+      }
+      .arch-grid,
+      .footer-kpis{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
       .orb-wrap{height:560px}
       .menu{display:none}
-      .hero-metrics{grid-template-columns:repeat(3,1fr)}
+      .hero-metrics{grid-template-columns:repeat(3, minmax(0,1fr))}
     }
 
     @media (max-width: 760px){
@@ -1082,20 +1214,41 @@
       .hero-grid{min-height:auto}
       .hero p{font-size:18px}
       .hero h2{font-size:28px}
-      .features-row,.cards-4,.arch-grid,.arch-bottom,.mini-grid,.footer-kpis,.hero-metrics{grid-template-columns:1fr}
+
+      .features-row,
+      .cards-4,
+      .arch-grid,
+      .arch-bottom,
+      .mini-grid,
+      .footer-kpis,
+      .hero-metrics,
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .split{
+        grid-template-columns:1fr;
+      }
+
       .orb{width:280px;height:280px}
       .orb-label{font-size:40px}
       .orb-node{display:none}
       .orb-wrap::before,.orb-wrap::after{display:none}
       .side-copy h3{font-size:36px}
-      .card h4{font-size:24px}
       .footer-grid{grid-template-columns:1fr 1fr}
       .nav{height:76px}
       .logo{font-size:24px}
       .cta{padding:14px 18px}
       .hero-mini-status{gap:10px}
       .status-pill{font-size:12px}
-      .ticker{gap:18px}
+
+      .icon{
+        width:64px;
+        min-width:64px;
+        min-height:64px;
+        font-size:9px;
+        padding:8px 6px;
+      }
     }
   </style>
 </head>
@@ -1226,7 +1379,7 @@
 
           <div class="features-row">
             <div class="card tilt" data-reveal="left">
-              <div class="icon">Shield</div>
+              <div class="icon">Control</div>
               <h4>Governed Cognition</h4>
               <p>Policies, constraints, auditability, and reliability embedded into the operating loop for accountable autonomy.</p>
             </div>
@@ -1303,12 +1456,12 @@
 
             <div class="arch-grid">
               <div class="arch-node tilt" style="--delay:0s">
-                <div class="icon">◉</div>
+                <div class="icon">Input</div>
                 <h5>Perception</h5>
                 <p>Desktop state capture<br>UI intake<br>Context parsing</p>
               </div>
               <div class="arch-node tilt" style="--delay:.6s">
-                <div class="icon">⬡</div>
+                <div class="icon">Model</div>
                 <h5>World Model</h5>
                 <p>Understand<br>Predict<br>Maintain task state</p>
               </div>
@@ -1318,7 +1471,7 @@
                 <p>Reflect<br>Evaluate<br>Adapt</p>
               </div>
               <div class="arch-node tilt" style="--delay:1.8s">
-                <div class="icon">◌</div>
+                <div class="icon">Reason</div>
                 <h5>Decision Engine</h5>
                 <p>Reason<br>Decide<br>Justify</p>
               </div>
@@ -1409,15 +1562,15 @@
                 <div class="mini-grid" style="margin-top:22px">
                   <div class="mini-card">
                     <b>0.1445</b>
-                    <span class="mini">Mean Delta</span>
+                    <span>Mean Delta</span>
                   </div>
                   <div class="mini-card">
                     <b>8.85</b>
-                    <span class="mini">Effect Size</span>
+                    <span>Effect Size</span>
                   </div>
                   <div class="mini-card">
                     <b>0.0</b>
-                    <span class="mini">p-value</span>
+                    <span>p-value</span>
                   </div>
                 </div>
               </div>
@@ -1457,18 +1610,18 @@
                 <div class="mini" style="text-align:center">Latest internal certification packet</div>
 
                 <div class="mini-grid">
-                  <div class="mini-card"><b>0.0</b><span class="mini">Timeout Rate</span></div>
-                  <div class="mini-card"><b>0.0</b><span class="mini">Zero-Proposal Rate</span></div>
-                  <div class="mini-card"><b>0.0</b><span class="mini">Leakage Rate</span></div>
+                  <div class="mini-card"><b>0.0</b><span>Timeout Rate</span></div>
+                  <div class="mini-card"><b>0.0</b><span>Zero-Proposal Rate</span></div>
+                  <div class="mini-card"><b>0.0</b><span>Leakage Rate</span></div>
                 </div>
               </div>
             </div>
 
             <div class="footer-kpis">
-              <div class="mini-card"><b>36</b><span class="mini">Tasks</span></div>
-              <div class="mini-card"><b>18 / 5 / 13</b><span class="mini">Wins / Losses / Ties</span></div>
-              <div class="mini-card"><b>0.2657</b><span class="mini">Matrix Mean Delta</span></div>
-              <div class="mini-card"><b>0.6237</b><span class="mini">Cohen's d</span></div>
+              <div class="mini-card"><b>36</b><span>Tasks</span></div>
+              <div class="mini-card"><b>18 / 5 / 13</b><span>Wins / Losses / Ties</span></div>
+              <div class="mini-card"><b>0.2657</b><span>Matrix Mean Delta</span></div>
+              <div class="mini-card"><b>0.6237</b><span>Cohen's d</span></div>
             </div>
           </div>
         </div>
