@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meet the Founder & CTO | SALT19</title>
+  <meta
+    name="description"
+    content="Meet Gabriel Vitor Allit, Founder, Owner, and CTO of SALT19 — an applied technology company building governed intelligent software systems including EvoMind."
+  />
+  <style>
+    :root{
+      --bg:#040817;
+      --bg-2:#071024;
+      --panel:#0a1126;
+      --panel-2:#0c1530;
+      --line:rgba(102,132,255,.18);
+      --text:#eef3ff;
+      --muted:#9ca8c7;
+      --blue:#5ba7ff;
+      --blue-2:#2f6fff;
+      --cyan:#39d7ff;
+      --purple:#8d5cff;
+      --green:#24d3a3;
+      --shadow:0 0 0 1px rgba(122,151,255,.15), 0 20px 60px rgba(8,12,28,.7), inset 0 1px 0 rgba(255,255,255,.03);
+      --radius:22px;
+      --radius-sm:16px;
+      --max:1380px;
+      --ease:cubic-bezier(.22,1,.36,1);
+    }
+
+    *, *::before, *::after { box-sizing:border-box; }
+
+    html, body{
+      margin:0;
+      padding:0;
+      min-height:100%;
+      color:var(--text);
+      font-family:Inter, Segoe UI, Arial, sans-serif;
+      scroll-behavior:smooth;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(57,215,255,.08), transparent 20%),
+        radial-gradient(circle at 82% 18%, rgba(141,92,255,.13), transparent 24%),
+        radial-gradient(circle at 50% 120%, rgba(47,111,255,.18), transparent 34%),
+        linear-gradient(180deg,#030712 0%, #040918 38%, #040917 100%);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.30;
+      background:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size:60px 60px;
+      mask-image:radial-gradient(circle at center, rgba(255,255,255,.8), rgba(255,255,255,.12));
+      animation:gridDrift 26s linear infinite;
+      z-index:0;
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-25%;
+      pointer-events:none;
+      opacity:.36;
+      background:
+        radial-gradient(circle at 70% 28%, rgba(89,167,255,.78), transparent 12%),
+        radial-gradient(circle at 73% 26%, rgba(173,89,255,.72), transparent 18%),
+        radial-gradient(circle at 67% 29%, rgba(57,215,255,.42), transparent 24%),
+        radial-gradient(circle at 22% 72%, rgba(57,215,255,.16), transparent 18%);
+      filter:blur(72px);
+      animation:ambientBloom 14s ease-in-out infinite;
+      z-index:0;
+    }
+
+    .ambient-noise,
+    .ambient-beams,
+    .particles{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .ambient-noise{
+      opacity:.05;
+      background-image: radial-gradient(rgba(255,255,255,.7) .45px, transparent .65px);
+      background-size:20px 20px;
+      animation:noiseFloat 18s linear infinite;
+    }
+
+    .ambient-beams{ overflow:hidden; }
+
+    .ambient-beams::before,
+    .ambient-beams::after{
+      content:"";
+      position:absolute;
+      width:54vw;
+      height:54vw;
+      border-radius:50%;
+      filter:blur(70px);
+      opacity:.16;
+      mix-blend-mode:screen;
+    }
+
+    .ambient-beams::before{
+      left:-10vw;
+      top:18vh;
+      background:radial-gradient(circle, rgba(57,215,255,.8), transparent 62%);
+      animation:beamShiftA 20s ease-in-out infinite;
+    }
+
+    .ambient-beams::after{
+      right:-16vw;
+      top:-8vh;
+      background:radial-gradient(circle, rgba(141,92,255,.9), transparent 62%);
+      animation:beamShiftB 24s ease-in-out infinite;
+    }
+
+    .particles span{
+      position:absolute;
+      display:block;
+      width:4px;
+      height:4px;
+      border-radius:999px;
+      background:radial-gradient(circle, rgba(255,255,255,.95), rgba(91,167,255,.75) 45%, rgba(91,167,255,0));
+      box-shadow:0 0 14px rgba(91,167,255,.45);
+      opacity:.55;
+      animation:particleRise linear infinite;
+    }
+
+    .particles span:nth-child(1){left:8%; top:92%; animation-duration:18s; animation-delay:-4s}
+    .particles span:nth-child(2){left:16%; top:82%; animation-duration:22s; animation-delay:-8s}
+    .particles span:nth-child(3){left:24%; top:96%; animation-duration:15s; animation-delay:-2s}
+    .particles span:nth-child(4){left:35%; top:88%; animation-duration:21s; animation-delay:-10s}
+    .particles span:nth-child(5){left:44%; top:94%; animation-duration:17s; animation-delay:-3s}
+    .particles span:nth-child(6){left:57%; top:90%; animation-duration:24s; animation-delay:-12s}
+    .particles span:nth-child(7){left:68%; top:95%; animation-duration:19s; animation-delay:-5s}
+    .particles span:nth-child(8){left:79%; top:86%; animation-duration:23s; animation-delay:-11s}
+    .particles span:nth-child(9){left:88%; top:93%; animation-duration:16s; animation-delay:-6s}
+    .particles span:nth-child(10){left:93%; top:84%; animation-duration:25s; animation-delay:-14s}
+
+    .site-shell{ position:relative; z-index:1; }
+    .container{ width:min(calc(100% - 48px), var(--max)); margin:0 auto; }
+
+    a{ text-decoration:none; color:inherit; }
+    .muted{ color:var(--muted); }
+
+    .eyebrow{
+      color:var(--blue);
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:13px;
+      font-weight:800;
+      margin:0 0 14px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .eyebrow::before{
+      content:"";
+      width:34px;
+      height:1px;
+      background:linear-gradient(90deg, rgba(57,215,255,0), rgba(57,215,255,.9));
+      box-shadow:0 0 12px rgba(57,215,255,.65);
+      animation:signalSweep 4s ease-in-out infinite;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(16px);
+      background:linear-gradient(180deg, rgba(4,8,23,.88), rgba(4,8,23,.52));
+      border-bottom:1px solid rgba(130,154,255,.12);
+      transition:background .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
+    }
+
+    header.scrolled{
+      background:linear-gradient(180deg, rgba(4,8,23,.96), rgba(4,8,23,.82));
+      border-bottom-color:rgba(130,154,255,.18);
+      box-shadow:0 12px 30px rgba(3,7,18,.35);
+    }
+
+    .nav{
+      height:88px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+
+    .logo{
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:.02em;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo::before{
+      content:"";
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background:linear-gradient(135deg, var(--cyan), var(--purple));
+      box-shadow:0 0 18px rgba(57,215,255,.7);
+      animation:statusPulse 2.8s ease-in-out infinite;
+    }
+
+    .menu{ display:flex; gap:34px; align-items:center; }
+
+    .menu a{
+      color:#c8d3f6;
+      font-weight:600;
+      font-size:15px;
+      padding:6px 0;
+      position:relative;
+      transition:color .25s ease, transform .25s ease;
+    }
+
+    .menu a:hover{
+      color:#ffffff;
+      transform:translateY(-1px);
+    }
+
+    .menu a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:100%;
+      bottom:-10px;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--blue),var(--purple));
+      box-shadow:0 0 14px rgba(99,124,255,.8);
+      transition:right .35s var(--ease);
+    }
+
+    .menu a:hover::after,
+    .menu a.active::after{
+      right:0;
+    }
+
+    .cta,
+    .btn{
+      transition:transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:16px 24px;
+      border-radius:14px;
+      background:linear-gradient(135deg, #2e66ff, #6a42ff);
+      font-weight:700;
+      box-shadow:0 18px 40px rgba(47,111,255,.35), inset 0 1px 0 rgba(255,255,255,.18);
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+    }
+
+    .cta::before,
+    .btn.primary::before{
+      content:"";
+      position:absolute;
+      inset:-120% auto auto -20%;
+      width:40%;
+      height:280%;
+      background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.32), rgba(255,255,255,0));
+      transform:rotate(20deg);
+      animation:shimmer 5.8s linear infinite;
+      z-index:-1;
+    }
+
+    .cta:hover,
+    .btn:hover{
+      transform:translateY(-3px);
+    }
+
+    .cta:hover{
+      box-shadow:0 24px 50px rgba(47,111,255,.45), inset 0 1px 0 rgba(255,255,255,.18);
+    }
+
+    .hero{
+      position:relative;
+      padding:62px 0 34px;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      right:-10%;
+      top:4%;
+      width:50vw;
+      height:50vw;
+      border-radius:50%;
+      border:1px solid rgba(108,136,255,.08);
+      animation:heroHalo 18s linear infinite;
+      pointer-events:none;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      right:-4%;
+      top:14%;
+      width:34vw;
+      height:34vw;
+      border-radius:50%;
+      border:1px solid rgba(163,97,255,.08);
+      animation:heroHaloReverse 22s linear infinite;
+      pointer-events:none;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.08fr) minmax(340px,.92fr);
+      gap:28px;
+      align-items:center;
+      min-height:700px;
+    }
+
+    .hero-copy > *{
+      animation:riseIn .9s var(--ease) both;
+    }
+
+    .hero-copy .eyebrow{animation-delay:.05s}
+    .hero-copy h1{animation-delay:.12s}
+    .hero-copy .role{animation-delay:.18s}
+    .hero-copy .lead{animation-delay:.24s}
+    .hero-copy .hero-actions{animation-delay:.34s}
+    .hero-copy .info-strip{animation-delay:.44s}
+
+    .hero h1{
+      margin:0;
+      font-size:clamp(54px, 7vw, 98px);
+      line-height:.95;
+      letter-spacing:-.05em;
+      color:#a4cbff;
+      text-shadow:0 0 40px rgba(91,167,255,.18);
+    }
+
+    .hero h1 .gradient-word{
+      background:linear-gradient(135deg, #dff2ff 0%, #8bc6ff 38%, #7b8fff 68%, #ba8cff 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      filter:drop-shadow(0 0 16px rgba(91,167,255,.14));
+      animation:titleGlow 6s ease-in-out infinite;
+    }
+
+    .role{
+      margin:18px 0 0;
+      color:#dce7ff;
+      font-size:24px;
+      font-weight:700;
+      line-height:1.4;
+    }
+
+    .lead{
+      margin:18px 0 0;
+      max-width:760px;
+      color:#bac7e8;
+      font-size:21px;
+      line-height:1.7;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-top:34px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:18px 28px;
+      border-radius:16px;
+      font-weight:800;
+      font-size:18px;
+      border:1px solid rgba(132,154,255,.2);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .btn.primary{
+      background:linear-gradient(135deg,#356fff,#7447ff);
+      box-shadow:0 20px 44px rgba(70,105,255,.34);
+      isolation:isolate;
+    }
+
+    .btn.secondary{
+      background:rgba(10,17,38,.72);
+    }
+
+    .btn.secondary:hover{
+      background:rgba(12,21,48,.95);
+      border-color:rgba(132,154,255,.32);
+    }
+
+    .info-strip{
+      margin-top:24px;
+      border:1px solid rgba(126,151,255,.14);
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(12,21,48,.7), rgba(8,14,32,.62));
+      box-shadow:var(--shadow);
+      padding:16px 18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .mini-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(126,151,255,.16);
+      background:rgba(10,17,38,.56);
+      color:#d7e4ff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    .mini-pill::before{
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:linear-gradient(135deg, var(--cyan), var(--green));
+      box-shadow:0 0 16px rgba(57,215,255,.65);
+      flex:0 0 auto;
+    }
+
+    .profile-panel{
+      position:relative;
+      min-height:580px;
+      border-radius:28px;
+      background:linear-gradient(180deg, rgba(11,19,44,.92), rgba(7,13,28,.92));
+      border:1px solid rgba(126,151,255,.16);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      padding:28px;
+    }
+
+    .profile-panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, rgba(57,215,255,.03), transparent 30%, rgba(141,92,255,.04) 70%, transparent);
+      animation:panelSweep 9s linear infinite;
+      pointer-events:none;
+    }
+
+    .panel-grid{
+      position:relative;
+      z-index:1;
+      display:grid;
+      gap:18px;
+      grid-template-columns:1fr;
+    }
+
+    .portrait-card,
+    .metric-card,
+    .card,
+    .timeline-card,
+    .quote-card,
+    .focus-card,
+    .cta-band{
+      min-width:0;
+    }
+
+    .portrait-card{
+      min-height:220px;
+      border-radius:22px;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(91,167,255,.25), transparent 18%),
+        radial-gradient(circle at 72% 22%, rgba(141,92,255,.22), transparent 24%),
+        linear-gradient(180deg, rgba(14,24,54,.92), rgba(9,16,35,.92));
+      border:1px solid rgba(127,152,255,.16);
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .avatar{
+      width:86px;
+      height:86px;
+      border-radius:22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg, rgba(57,215,255,.12), rgba(155,93,255,.16));
+      border:1px solid rgba(126,151,255,.18);
+      color:#ecf3ff;
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:.04em;
+      box-shadow:0 0 0 1px rgba(122,151,255,.1), 0 20px 50px rgba(8,12,28,.4);
+    }
+
+    .portrait-name{
+      margin:18px 0 8px;
+      font-size:30px;
+      line-height:1.08;
+      letter-spacing:-.03em;
+    }
+
+    .portrait-role{
+      color:#cbd8f7;
+      font-size:16px;
+      line-height:1.55;
+    }
+
+    .metric-row{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .metric-card{
+      padding:18px 16px;
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(14,24,54,.88), rgba(9,16,35,.9));
+      border:1px solid rgba(127,152,255,.16);
+      box-shadow:var(--shadow);
+      transition:transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+    }
+
+    .metric-card:hover{
+      transform:translateY(-4px);
+      border-color:rgba(126,151,255,.26);
+      box-shadow:0 24px 50px rgba(8,12,28,.42);
+    }
+
+    .metric-card b{
+      display:block;
+      font-size:28px;
+      margin-bottom:6px;
+      line-height:1;
+    }
+
+    .metric-card span{
+      display:block;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+      overflow-wrap:anywhere;
+    }
+
+    .section{
+      padding:42px 0;
+      border-top:1px solid rgba(120,145,255,.1);
+      position:relative;
+    }
+
+    .section::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:1px;
+      background:linear-gradient(90deg, rgba(57,215,255,0), rgba(57,215,255,.25), rgba(141,92,255,.22), rgba(57,215,255,0));
+    }
+
+    .section-head{
+      max-width:860px;
+      margin-bottom:26px;
+    }
+
+    .section-head h2{
+      margin:0 0 14px;
+      font-size:clamp(34px, 4vw, 58px);
+      line-height:1.05;
+      letter-spacing:-.04em;
+    }
+
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:20px;
+      line-height:1.6;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:18px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:18px;
+    }
+
+    .card,
+    .timeline-card,
+    .quote-card,
+    .focus-card{
+      background:linear-gradient(180deg, rgba(12,21,48,.88), rgba(8,14,32,.88));
+      border:1px solid rgba(126,151,255,.16);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+      transition:transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease);
+    }
+
+    .card::before,
+    .timeline-card::before,
+    .quote-card::before,
+    .focus-card::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      height:2px;
+      background:linear-gradient(90deg, rgba(57,215,255,.0), rgba(57,215,255,.8), rgba(155,93,255,.85), rgba(57,215,255,0));
+      opacity:.9;
+    }
+
+    .card:hover,
+    .timeline-card:hover,
+    .quote-card:hover,
+    .focus-card:hover{
+      transform:translateY(-8px);
+      border-color:rgba(126,151,255,.28);
+      box-shadow:0 0 0 1px rgba(122,151,255,.18), 0 30px 80px rgba(8,12,28,.82), inset 0 1px 0 rgba(255,255,255,.05);
+      background:linear-gradient(180deg, rgba(14,24,54,.98), rgba(9,16,35,.96));
+    }
+
+    .icon{
+      width:88px;
+      min-width:88px;
+      height:72px;
+      min-height:72px;
+      padding:10px 10px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background:linear-gradient(135deg, rgba(57,215,255,.08), rgba(155,93,255,.1));
+      border:1px solid rgba(126,151,255,.18);
+      font-size:11px;
+      line-height:1.05;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      margin-bottom:18px;
+      animation:iconHover 5s ease-in-out infinite;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .card h3,
+    .focus-card h3,
+    .timeline-card h3,
+    .quote-card h3{
+      margin:0 0 12px;
+      font-size:clamp(22px, 2vw, 30px);
+      line-height:1.12;
+      overflow-wrap:anywhere;
+    }
+
+    .card p,
+    .focus-card p,
+    .timeline-card p,
+    .quote-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.65;
+      overflow-wrap:anywhere;
+      hyphens:auto;
+    }
+
+    .list{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .list-item{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      color:#dce6ff;
+      font-size:15px;
+      line-height:1.6;
+    }
+
+    .list-item::before{
+      content:"";
+      width:8px;
+      height:8px;
+      margin-top:8px;
+      border-radius:999px;
+      background:linear-gradient(135deg, var(--cyan), var(--purple));
+      box-shadow:0 0 12px rgba(57,215,255,.55);
+      flex:0 0 auto;
+    }
+
+    .timeline{
+      display:grid;
+      gap:18px;
+    }
+
+    .timeline-card{
+      display:grid;
+      grid-template-columns:160px minmax(0,1fr);
+      gap:18px;
+      align-items:start;
+    }
+
+    .year{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(126,151,255,.16);
+      background:rgba(10,17,38,.62);
+      color:#d7e4ff;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .quote-card{
+      display:grid;
+      gap:18px;
+    }
+
+    .quote{
+      font-size:clamp(22px, 2vw, 30px);
+      line-height:1.35;
+      color:#eaf1ff;
+      letter-spacing:-.02em;
+    }
+
+    .quote-meta{
+      color:var(--muted);
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:800;
+    }
+
+    .cta-band{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:24px;
+      align-items:center;
+      padding:28px;
+      border-radius:24px;
+      background:linear-gradient(135deg, rgba(28,53,126,.92), rgba(73,44,149,.88));
+      border:1px solid rgba(147,165,255,.22);
+      box-shadow:0 20px 60px rgba(17,25,58,.4);
+    }
+
+    .cta-band h3{
+      margin:0 0 10px;
+      font-size:clamp(28px, 3vw, 42px);
+      line-height:1.08;
+    }
+
+    .cta-band p{
+      margin:0;
+      color:#dce6ff;
+      font-size:18px;
+      line-height:1.6;
+      max-width:760px;
+    }
+
+    footer{
+      border-top:1px solid rgba(120,145,255,.1);
+      padding:36px 0 54px;
+      margin-top:18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    footer::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at 90% 20%, rgba(57,215,255,.06), transparent 22%), radial-gradient(circle at 8% 80%, rgba(141,92,255,.08), transparent 24%);
+      pointer-events:none;
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr .8fr 1fr;
+      gap:18px;
+    }
+
+    .footer-grid h5{
+      margin:0 0 14px;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#8ca0d4;
+    }
+
+    .footer-grid a,
+    .footer-grid p{
+      display:block;
+      margin:10px 0;
+      color:#cfd7f0;
+      transition:color .25s ease, transform .25s ease;
+    }
+
+    .footer-grid a:hover{
+      color:#fff;
+      transform:translateX(2px);
+    }
+
+    .socials{ display:flex; gap:10px; margin-top:16px; }
+
+    .socials span{
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      background:rgba(10,17,38,.72);
+      border:1px solid rgba(126,151,255,.14);
+      transition:transform .28s var(--ease), border-color .28s var(--ease), background .28s var(--ease);
+    }
+
+    .socials span:hover{
+      transform:translateY(-4px);
+      border-color:rgba(126,151,255,.28);
+      background:rgba(12,21,48,.95);
+    }
+
+    [data-reveal]{
+      opacity:0;
+      transform:translateY(34px) scale(.985);
+      transition:opacity .8s var(--ease), transform .8s var(--ease);
+      will-change:opacity, transform;
+    }
+
+    [data-reveal].visible{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    [data-reveal="left"]{ transform:translateX(-34px); }
+    [data-reveal="right"]{ transform:translateX(34px); }
+    [data-reveal="scale"]{ transform:translateY(22px) scale(.94); }
+
+    [data-reveal="left"].visible,
+    [data-reveal="right"].visible,
+    [data-reveal="scale"].visible{
+      transform:translate3d(0,0,0) scale(1);
+    }
+
+    .tilt{
+      transform-style:preserve-3d;
+      will-change:transform;
+    }
+
+    @keyframes shimmer{0%{transform:translateX(-220%) rotate(20deg)}100%{transform:translateX(420%) rotate(20deg)}}
+    @keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes heroHalo{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @keyframes heroHaloReverse{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
+    @keyframes statusPulse{0%,100%{transform:scale(1); opacity:.85}50%{transform:scale(1.25); opacity:1}}
+    @keyframes signalSweep{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+    @keyframes iconHover{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+    @keyframes panelSweep{0%{transform:translateX(-18%)}100%{transform:translateX(18%)}}
+    @keyframes titleGlow{0%,100%{filter:drop-shadow(0 0 10px rgba(91,167,255,.12))}50%{filter:drop-shadow(0 0 18px rgba(141,92,255,.18))}}
+    @keyframes gridDrift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-12px,10px,0) scale(1.01)}100%{transform:translate3d(0,0,0) scale(1)}}
+    @keyframes ambientBloom{0%,100%{transform:scale(1) translate3d(0,0,0)}50%{transform:scale(1.08) translate3d(14px,-10px,0)}}
+    @keyframes beamShiftA{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(6vw,-4vh,0)}}
+    @keyframes beamShiftB{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-7vw,5vh,0)}}
+    @keyframes noiseFloat{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-10px,8px,0)}100%{transform:translate3d(0,0,0)}}
+    @keyframes particleRise{
+      0%{transform:translate3d(0,0,0) scale(.7); opacity:0}
+      10%{opacity:.55}
+      80%{opacity:.28}
+      100%{transform:translate3d(16px,-120vh,0) scale(1.35); opacity:0}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after{
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+      }
+      [data-reveal]{opacity:1;transform:none}
+    }
+
+    @media (max-width: 1240px){
+      .hero-grid,
+      .grid-3{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+
+      .footer-grid{
+        grid-template-columns:1fr 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .cta-band{
+        grid-template-columns:1fr;
+      }
+
+      .timeline-card{
+        grid-template-columns:1fr;
+      }
+
+      .metric-row{
+        grid-template-columns:1fr 1fr 1fr;
+      }
+
+      .menu{ display:none; }
+    }
+
+    @media (max-width: 760px){
+      .container{ width:min(calc(100% - 28px), var(--max)); }
+      .hero{ padding-top:28px; }
+      .profile-panel{ min-height:auto; }
+      .hero h1{ font-size:clamp(46px, 16vw, 72px); }
+      .lead{ font-size:18px; }
+      .role{ font-size:20px; }
+      .section-head p{ font-size:18px; }
+      .footer-grid{ grid-template-columns:1fr 1fr; }
+      .nav{ height:76px; }
+      .logo{ font-size:24px; }
+      .cta{ padding:14px 18px; }
+      .metric-row{ grid-template-columns:1fr; }
+      .icon{
+        width:74px;
+        min-width:74px;
+        height:64px;
+        min-height:64px;
+        font-size:9px;
+        padding:8px 6px;
+        letter-spacing:.04em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-noise"></div>
+  <div class="ambient-beams"></div>
+  <div class="particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="site-shell">
+    <header id="site-header">
+      <div class="container nav">
+        <div class="logo"><span>SALT19</span></div>
+        <nav class="menu">
+          <a href="/index.html">EvoMind</a>
+          <a href="/about.html">About</a>
+          <a class="active" href="/founder.html">Founder & CTO</a>
+          <a href="/index.html#validation">Validation</a>
+          <a href="mailto:info@salt19.com">Contact</a>
+        </nav>
+        <a class="cta" href="mailto:info@salt19.com">Connect →</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow">Meet the Founder & CTO</p>
+              <h1><span class="gradient-word">Gabriel Vitor Allit</span></h1>
+              <p class="role">Founder, Owner, and CTO of SALT19</p>
+              <p class="lead">
+                Gabriel Allit leads SALT19’s product and technical direction at the intersection of governed AI, autonomy, geospatial systems, robotics, and advanced analytics — with a focus on building software that is practical, transparent, and reliable in real-world, high-consequence environments.
+              </p>
+
+              <div class="hero-actions">
+                <a class="btn primary" href="#bio">Read Bio</a>
+                <a class="btn secondary" href="mailto:info@salt19.com">Get in Touch</a>
+              </div>
+
+              <div class="info-strip">
+                <div class="mini-pill">Founded SALT19 in 2020</div>
+                <div class="mini-pill">Greater Tampa Bay Area</div>
+                <div class="mini-pill">Governed intelligent systems</div>
+                <div class="mini-pill">AI + geospatial + autonomy</div>
+              </div>
+            </div>
+
+            <div class="profile-panel tilt" data-reveal="right">
+              <div class="panel-grid">
+                <div class="portrait-card">
+                  <div>
+                    <div class="avatar avatar-photo">
+			<img src="Gabriel-headshot.jpg"/> 
+		    </div>
+                    <h2 class="portrait-name">Gabriel Allit</h2>
+                    <div class="portrait-role">
+                      Founder, Owner, and CTO of SALT19 LLC<br />
+                      Senior Commercial UAS Pilot – Engineering (Geospatial and Remote Sensing)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="metric-row">
+                  <div class="metric-card">
+                    <b>21+</b>
+                    <span>Years of hands-on experience across UAS, robotics, geospatial engineering, and AI</span>
+                  </div>
+                  <div class="metric-card">
+                    <b>2020</b>
+                    <span>Year SALT19 was founded and began evolving into an applied technology company</span>
+                  </div>
+                  <div class="metric-card">
+                    <b>1</b>
+                    <span>Core mission: build practical, trustworthy software for real operational environments</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="bio">
+        <div class="container">
+          <div class="section-head" data-reveal="left">
+            <p class="eyebrow">Professional Bio</p>
+            <h2>Technical leadership grounded in real-world execution.</h2>
+            <p>
+              Gabriel Allit is the Founder, Owner, and CTO of SALT19 LLC, an applied technology company he established in 2020 in Florida. Under his leadership, SALT19 has evolved from an aerial data services business into a focused software and AI company developing governed intelligent systems for high-consequence environments.
+            </p>
+          </div>
+
+          <div class="grid-2">
+            <div class="card tilt" data-reveal="left">
+              <div class="icon">Leadership</div>
+              <h3>Founder and product architect</h3>
+              <p>
+                Gabriel leads SALT19’s strategic and technical direction, shaping the company around software platforms that combine autonomy, analytics, control, and operational rigor rather than generic automation alone.
+              </p>
+              <div class="list">
+                <div class="list-item">Defines technical vision and product architecture</div>
+                <div class="list-item">Focuses on governed, accountable intelligent systems</div>
+                <div class="list-item">Builds tools for applied, operational use cases</div>
+              </div>
+            </div>
+
+            <div class="card tilt" data-reveal="right">
+              <div class="icon">Expertise</div>
+              <h3>Deep operational and engineering background</h3>
+              <p>
+                With more than 21 years of hands-on experience in Unmanned Aircraft Systems, robotics, geospatial engineering, and artificial intelligence, Gabriel brings practical technical depth to software built for demanding environments.
+              </p>
+              <div class="list">
+                <div class="list-item">Geospatial and remote sensing workflows</div>
+                <div class="list-item">Applied AI and software system design</div>
+                <div class="list-item">Operational problem solving in the field and in code</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="salt19-story">
+        <div class="container">
+          <div class="section-head" data-reveal="left">
+            <p class="eyebrow">SALT19 Under Gabriel’s Leadership</p>
+            <h2>From services to software platforms.</h2>
+            <p>
+              SALT19 began as a professional aerial imaging and mapping business and has since grown into a company focused on advanced software systems — especially software that combines intelligence, analysis, and accountability.
+            </p>
+          </div>
+
+          <div class="grid-3">
+            <div class="card tilt" data-reveal="scale">
+              <div class="icon">EvoMind</div>
+              <h3>EvoMind</h3>
+              <p>
+                Gabriel has led the development of EvoMind, SALT19’s flagship governed cognitive system designed to perceive software, reason through goals, and execute multi-step work across real desktop environments with strong operational control.
+              </p>
+            </div>
+
+            <div class="card tilt" data-reveal="scale">
+              <div class="icon">Survey</div>
+              <h3>Analysis and survey software</h3>
+              <p>
+                He has also driven SALT19’s work in geospatial and analytics tooling, including software like Arbor Analyzer, UAS Survey Tool, and UAS Thermal Analysis Tool.
+              </p>
+            </div>
+
+            <div class="card tilt" data-reveal="scale">
+              <div class="icon">Trust</div>
+              <h3>Governance first</h3>
+              <p>
+                Across products, Gabriel emphasizes software that is interpretable, bounded, and useful — especially where safety, reliability, and accountability matter.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="experience">
+        <div class="container">
+          <div class="section-head" data-reveal="left">
+            <p class="eyebrow">Experience</p>
+            <h2>A background that bridges engineering, operations, and intelligent systems.</h2>
+            <p>
+              Gabriel’s profile combines technical software development with field-tested operational experience, giving him an unusually grounded perspective on what advanced systems need to do outside of lab conditions.
+            </p>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-card tilt" data-reveal="left">
+              <div class="year">Military</div>
+              <div>
+                <h3>U.S. Navy veteran</h3>
+                <p>
+                  Gabriel served in the U.S. Navy as a Mineman, bringing disciplined operational experience and systems thinking into his later work in engineering and technology.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-card tilt" data-reveal="scale">
+              <div class="year">Engineering</div>
+              <div>
+                <h3>Senior Commercial UAS – Engineering and Survey</h3>
+                <p>
+                  He currently serves top-tier EPC contractor specializing in utility-scale solar, energy storage, and renewable infrastructure in a geospatial and remote sensing capacity, contributing to technically demanding engineering workflows and data-driven operations, data collection, data processing, data analysis, custom python tooling.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-card tilt" data-reveal="right">
+              <div class="year">Software</div>
+              <div>
+                <h3>Python developer and applied systems builder</h3>
+                <p>
+                  Gabriel is a Python developer and FAA-licensed commercial drone pilot whose work sits at the convergence of robotics, autonomy, AI, and operational software systems. What distinguishes his research and innovation approach is a focus on governed intelligence rather than unconstrained automation: he develops systems that are not only capable of acting autonomously, but are also designed to remain transparent, auditable, controllable, and reliable in real-world, high-consequence environments. Rather than pursuing AI as a purely experimental or model-centric exercise, he concentrates on building software that can reason, adapt, and execute with practical operational value across real workflows.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="focus">
+        <div class="container">
+          <div class="section-head" data-reveal="left">
+            <p class="eyebrow">What drives him</p>
+            <h2>Practical, trustworthy AI — not hype-first systems.</h2>
+            <p>
+              Gabriel’s work centers on building software that performs in real environments, not just on paper. That means intelligent systems with structure, constraints, continuity, and clear operator value.
+            </p>
+          </div>
+
+          <div class="grid-2">
+            <div class="focus-card tilt" data-reveal="left">
+              <div class="icon">Mission</div>
+              <h3>Software with real operational purpose</h3>
+              <p>
+                The goal is not novelty for its own sake. It is software that helps teams plan, interpret, analyze, and execute with greater clarity and capability.
+              </p>
+              <div class="list">
+                <div class="list-item">High-consequence environments</div>
+                <div class="list-item">Governed autonomy and bounded execution</div>
+                <div class="list-item">Clear outputs and accountable system behavior</div>
+              </div>
+            </div>
+
+            <div class="focus-card tilt" data-reveal="right">
+              <div class="icon">Build</div>
+              <h3>Technical ambition with grounded discipline</h3>
+              <p>
+                Gabriel is especially interested in software that sits at the frontier of AI and autonomy while still staying practical, usable, and operationally safe.
+              </p>
+              <div class="list">
+                <div class="list-item">Enterprise and operational AI</div>
+                <div class="list-item">Geospatial and analytical software systems</div>
+                <div class="list-item">Cognitive architectures with governance</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="quote">
+        <div class="container">
+          <div class="grid-2">
+            <div class="quote-card tilt" data-reveal="left">
+              <p class="eyebrow">Leadership Perspective</p>
+              <div class="quote">
+                Gabriel’s approach is to build software that is advanced enough to matter, but structured enough to trust.
+              </div>
+              <div class="quote-meta">Governed autonomy • practical AI • operational software</div>
+            </div>
+
+            <div class="quote-card tilt" data-reveal="right">
+              <p class="eyebrow">Beyond Work</p>
+              <div class="quote">
+                In addition to his technical work, Gabriel Allit is the author of the children’s book <em>The Pretendigator and Flower Picking Friends and the sUAS Pilot Logbook: Part 107 Edition.</em>
+
+              </div>
+              <div class="quote-meta">Builder • veteran • engineer • author</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="cta-band">
+        <div class="container">
+          <div class="cta-band tilt" data-reveal="scale">
+            <div>
+              <h3>Interested in what Gabriel is building through SALT19?</h3>
+              <p>
+                SALT19 is focused on software that combines intelligent capability with operational discipline — from governed cognitive systems like EvoMind to applied analytics and geospatial platforms.
+              </p>
+            </div>
+            <a class="cta" href="mailto:info@salt19.com">Contact SALT19 →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact">
+      <div class="container footer-grid">
+        <div>
+          <div class="logo"><span>SALT19</span></div>
+          <p class="muted">SALT19 develops governed software systems spanning AI, geospatial analysis, autonomy, and advanced operational workflows.</p>
+          <p class="muted">© 2026 SALT19. All rights reserved.</p>
+        </div>
+
+        <div>
+          <h5>Company</h5>
+          <a href="/about.html">About</a>
+          <a href="/founder.html">Founder & CTO</a>
+          <a href="mailto:info@salt19.com">Contact</a>
+        </div>
+
+        <div>
+          <h5>Products</h5>
+          <a href="/index.html">EvoMind</a>
+          <a href="/about.html#products">Arbor Analyzer</a>
+          <a href="/about.html#products">UAS Survey Tool</a>
+          <a href="/about.html#products">UAS Thermal Analysis Tool</a>
+        </div>
+
+        <div>
+          <h5>Focus</h5>
+          <a href="/about.html#mission">Governed AI</a>
+          <a href="/about.html#products">Geospatial Software</a>
+          <a href="/index.html#validation">Validation</a>
+        </div>
+
+        <div>
+          <h5>Stay Connected</h5>
+          <a href="mailto:info@salt19.com">info@salt19.com</a>
+          <div class="socials">
+            <span>X</span>
+            <span>in</span>
+            <span>GH</span>
+            <span>AI</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const header = document.getElementById("site-header");
+    const revealEls = document.querySelectorAll("[data-reveal]");
+    const tiltEls = document.querySelectorAll(".tilt");
+
+    const setHeaderState = () => {
+      if (window.scrollY > 12) header.classList.add("scrolled");
+      else header.classList.remove("scrolled");
+    };
+    setHeaderState();
+    window.addEventListener("scroll", setHeaderState, { passive: true });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    revealEls.forEach((el) => revealObserver.observe(el));
+
+    tiltEls.forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;
+        const py = (e.clientY - rect.top) / rect.height;
+        const rotateY = (px - 0.5) * 10;
+        const rotateX = (0.5 - py) * 10;
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "";
+      });
+    });
+  </script>
+</body>
+</html>
