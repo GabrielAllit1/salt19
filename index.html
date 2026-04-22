@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SALT19 | EvoMind</title>
+  <style>
+    :root{
+      --bg:#040817;
+      --panel:#0a1126;
+      --panel-2:#0c1530;
+      --line:rgba(102,132,255,.18);
+      --text:#eef3ff;
+      --muted:#9ca8c7;
+      --blue:#5ba7ff;
+      --blue-2:#2f6fff;
+      --cyan:#39d7ff;
+      --purple:#8d5cff;
+      --purple-2:#b65cff;
+      --green:#24d3a3;
+      --shadow:0 0 0 1px rgba(122,151,255,.15), 0 20px 60px rgba(8,12,28,.7), inset 0 1px 0 rgba(255,255,255,.03);
+      --radius:20px;
+      --radius-sm:16px;
+      --max:1380px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:
+      radial-gradient(circle at 70% 18%, rgba(72,100,255,.18), transparent 18%),
+      radial-gradient(circle at 74% 26%, rgba(178,70,255,.18), transparent 22%),
+      linear-gradient(180deg,#030712 0%, #040918 38%, #040917 100%);
+      color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;scroll-behavior:smooth}
+    body::before{
+      content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;
+      background:
+        repeating-linear-gradient(120deg, rgba(59,215,255,.05) 0 1px, transparent 1px 16px),
+        linear-gradient(90deg, rgba(65,98,255,.06), transparent 35%, rgba(169,92,255,.07));
+      mask-image: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.2));
+    }
+    body::after{
+      content:"";position:fixed;inset:-20%;pointer-events:none;opacity:.35;
+      background:
+        radial-gradient(circle at 70% 30%, rgba(89,167,255,.8), transparent 12%),
+        radial-gradient(circle at 72% 30%, rgba(173,89,255,.7), transparent 18%),
+        radial-gradient(circle at 68% 29%, rgba(57,215,255,.45), transparent 22%);
+      filter: blur(60px);
+      animation: pulse 9s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1) translate3d(0,0,0)}
+      50%{transform:scale(1.06) translate3d(10px,-8px,0)}
+    }
+
+    .container{width:min(calc(100% - 48px), var(--max));margin:0 auto}
+    a{text-decoration:none;color:inherit}
+    .muted{color:var(--muted)}
+    .eyebrow{
+      color:var(--blue);text-transform:uppercase;letter-spacing:.18em;
+      font-size:13px;font-weight:800;margin:0 0 14px
+    }
+
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(16px);
+      background:linear-gradient(180deg, rgba(4,8,23,.88), rgba(4,8,23,.54));
+      border-bottom:1px solid rgba(130,154,255,.12);
+    }
+    .nav{
+      height:88px;display:flex;align-items:center;justify-content:space-between;gap:24px
+    }
+    .logo{font-size:28px;font-weight:800;letter-spacing:.02em}
+    .logo span{color:#dfe7ff}
+    .menu{display:flex;gap:34px;align-items:center}
+    .menu a{
+      color:#c8d3f6;font-weight:600;font-size:15px;padding:6px 0;position:relative
+    }
+    .menu a.active::after{
+      content:"";position:absolute;left:0;right:0;bottom:-10px;height:2px;border-radius:999px;
+      background:linear-gradient(90deg,var(--blue),var(--purple));
+      box-shadow:0 0 14px rgba(99,124,255,.8);
+    }
+    .cta{
+      display:inline-flex;align-items:center;gap:12px;padding:16px 24px;border-radius:14px;
+      background:linear-gradient(135deg, #2e66ff, #6a42ff);
+      font-weight:700;box-shadow:0 18px 40px rgba(47,111,255,.35), inset 0 1px 0 rgba(255,255,255,.18)
+    }
+
+    .hero{
+      position:relative;padding:54px 0 28px;
+      overflow:hidden;
+    }
+    .hero-grid{
+      display:grid;grid-template-columns:1.05fr 1fr;gap:28px;align-items:center;min-height:720px
+    }
+    .hero h1{
+      margin:0;font-size: clamp(72px, 9vw, 116px);line-height:.95;letter-spacing:-.05em;
+      color:#a4cbff;text-shadow:0 0 40px rgba(91,167,255,.18);
+    }
+    .hero h2{
+      margin:18px 0 16px;font-size: clamp(32px, 3vw, 48px);line-height:1.12;max-width:740px
+    }
+    .hero p{
+      margin:0;max-width:720px;color:#bac7e8;font-size:22px;line-height:1.65
+    }
+    .hero-actions{display:flex;gap:18px;flex-wrap:wrap;margin-top:34px}
+    .btn{
+      display:inline-flex;align-items:center;gap:12px;padding:18px 28px;border-radius:16px;
+      font-weight:800;font-size:18px;border:1px solid rgba(132,154,255,.2)
+    }
+    .btn.primary{
+      background:linear-gradient(135deg,#356fff,#7447ff);box-shadow:0 20px 44px rgba(70,105,255,.34)
+    }
+    .btn.secondary{
+      background:rgba(10,17,38,.72)
+    }
+
+    .orb-wrap{
+      position:relative;height:670px;display:flex;align-items:center;justify-content:center
+    }
+    .orb{
+      position:relative;width:420px;height:420px;border-radius:50%;
+      background:
+        radial-gradient(circle at 42% 38%, rgba(255,255,255,.85), rgba(101,162,255,.55) 16%, rgba(56,92,255,.24) 30%, rgba(20,18,64,.28) 55%, rgba(5,9,23,.02) 66%),
+        radial-gradient(circle at 60% 52%, rgba(172,89,255,.28), transparent 50%);
+      box-shadow:
+        0 0 0 1px rgba(153,177,255,.18),
+        0 0 38px rgba(59,215,255,.25),
+        0 0 88px rgba(106,71,255,.28),
+        inset 0 0 46px rgba(255,255,255,.06);
+      display:flex;align-items:center;justify-content:center;
+      animation: glow 7s ease-in-out infinite;
+    }
+    .orb::before,.orb::after{
+      content:"";position:absolute;inset:-26px;border-radius:50%;
+      border:1px solid rgba(102,132,255,.22)
+    }
+    .orb::after{inset:-54px;border-color:rgba(159,95,255,.18)}
+    @keyframes glow{
+      0%,100%{transform:scale(1);filter:drop-shadow(0 0 10px rgba(57,215,255,.18))}
+      50%{transform:scale(1.03);filter:drop-shadow(0 0 26px rgba(157,94,255,.24))}
+    }
+    .orb-label{font-size:56px;font-weight:800;letter-spacing:-.03em}
+    .orb-line{
+      position:absolute;height:2px;background:linear-gradient(90deg, rgba(57,215,255,0), rgba(57,215,255,.85), rgba(141,92,255,0));
+      filter:drop-shadow(0 0 12px rgba(57,215,255,.65));transform-origin:left center
+    }
+    .orb-node{
+      position:absolute;min-width:168px;padding:14px 16px;border-radius:14px;background:rgba(9,16,37,.8);
+      border:1px solid rgba(129,153,255,.18);box-shadow:var(--shadow)
+    }
+    .orb-node h4{margin:0 0 6px;font-size:15px}
+    .orb-node p{margin:0;color:var(--muted);font-size:12px;line-height:1.35}
+
+    .features-row{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:14px
+    }
+
+    .section{
+      padding:34px 0;
+      border-top:1px solid rgba(120,145,255,.1)
+    }
+    .split{
+      display:grid;grid-template-columns:380px 1fr;gap:22px;align-items:stretch
+    }
+    .side-copy{
+      padding:18px 8px 0 0
+    }
+    .side-copy h3{
+      margin:0 0 16px;font-size:54px;line-height:1.08;letter-spacing:-.04em
+    }
+    .side-copy p{margin:0;color:var(--muted);font-size:21px;line-height:1.6}
+    .side-copy .cta-inline{
+      display:inline-flex;margin-top:26px;padding:16px 22px;border-radius:14px;
+      border:1px solid rgba(129,153,255,.2);background:rgba(11,18,39,.65);font-weight:700
+    }
+
+    .cards-4,.cards-3{display:grid;gap:18px}
+    .cards-4{grid-template-columns:repeat(4,1fr)}
+    .cards-3{grid-template-columns:1.15fr 1fr 1fr}
+    .card{
+      background:linear-gradient(180deg, rgba(12,21,48,.88), rgba(8,14,32,.88));
+      border:1px solid rgba(126,151,255,.16);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:28px;position:relative;overflow:hidden
+    }
+    .card::before{
+      content:"";position:absolute;left:0;right:0;top:0;height:2px;
+      background:linear-gradient(90deg, rgba(57,215,255,.0), rgba(57,215,255,.8), rgba(155,93,255,.85), rgba(57,215,255,0));
+      opacity:.9;
+    }
+    .icon{
+      width:54px;height:54px;border-radius:14px;display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(57,215,255,.08), rgba(155,93,255,.1));
+      border:1px solid rgba(126,151,255,.18);font-size:24px;margin-bottom:18px
+    }
+    .card h4{margin:0 0 10px;font-size:29px;line-height:1.1}
+    .card p{margin:0;color:var(--muted);font-size:18px;line-height:1.55}
+    .card a.more{display:inline-block;margin-top:16px;color:var(--blue);font-weight:700}
+
+    .arch-diagram{
+      padding:26px;border-radius:24px;background:linear-gradient(180deg, rgba(11,19,44,.92), rgba(7,13,28,.92));
+      border:1px solid rgba(126,151,255,.16);box-shadow:var(--shadow);
+    }
+    .arch-top{
+      text-align:center;padding:16px 18px;border-radius:16px;margin:0 auto 22px;max-width:540px;
+      background:linear-gradient(180deg, rgba(23,38,85,.88), rgba(13,22,51,.88));
+      border:1px solid rgba(126,151,255,.2)
+    }
+    .arch-top h4{margin:0 0 6px;font-size:24px}
+    .arch-top p{margin:0;color:var(--muted);font-size:15px}
+    .arch-grid{
+      display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:18px
+    }
+    .arch-node{
+      min-height:170px;padding:18px;border-radius:18px;background:linear-gradient(180deg, rgba(14,24,54,.85), rgba(9,16,35,.88));
+      border:1px solid rgba(127,152,255,.16);position:relative
+    }
+    .arch-node .icon{margin-bottom:12px}
+    .arch-node h5{margin:0 0 8px;font-size:22px}
+    .arch-node p{margin:0;color:var(--muted);font-size:16px;line-height:1.45}
+    .arch-bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+    .stats{
+      display:grid;grid-template-columns:1.2fr 1fr .85fr;gap:18px
+    }
+    .score{
+      min-height:400px
+    }
+    .big-score{font-size:78px;font-weight:800;color:#53e0c0;line-height:1;margin:10px 0 8px}
+    .mini{font-size:14px;color:var(--muted)}
+    .chart{
+      margin-top:22px;height:170px;border-radius:16px;border:1px solid rgba(126,151,255,.12);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), transparent),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 34px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, transparent 1px 60px);
+      position:relative;overflow:hidden
+    }
+    .chart svg{position:absolute;inset:0;width:100%;height:100%}
+    .bars .row{margin-bottom:18px}
+    .bars .label{display:flex;justify-content:space-between;margin-bottom:8px;color:#d5def7;font-size:15px}
+    .bar{
+      height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;border:1px solid rgba(126,151,255,.12)
+    }
+    .bar > span{
+      display:block;height:100%;border-radius:999px;background:linear-gradient(90deg, var(--cyan), var(--purple));
+      box-shadow:0 0 18px rgba(76,173,255,.35)
+    }
+    .ring{
+      width:190px;height:190px;border-radius:50%;margin:8px auto 12px;
+      background:
+        radial-gradient(circle at center, rgba(9,16,37,1) 56%, transparent 57%),
+        conic-gradient(var(--purple) 0 354deg, rgba(255,255,255,.08) 354deg 360deg);
+      display:grid;place-items:center;box-shadow:inset 0 0 30px rgba(255,255,255,.03), 0 0 0 1px rgba(126,151,255,.16)
+    }
+    .ring span{font-size:44px;font-weight:800}
+    .mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+    .mini-card{
+      padding:18px;border-radius:16px;background:rgba(10,17,38,.72);border:1px solid rgba(126,151,255,.14)
+    }
+    .mini-card b{display:block;font-size:30px;margin-bottom:6px}
+    .footer-kpis{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px
+    }
+
+    footer{
+      border-top:1px solid rgba(120,145,255,.1);padding:36px 0 54px;margin-top:10px
+    }
+    .footer-grid{
+      display:grid;grid-template-columns:1.2fr .8fr .8fr .8fr 1fr;gap:18px
+    }
+    .footer-grid h5{margin:0 0 14px;font-size:14px;text-transform:uppercase;letter-spacing:.12em;color:#8ca0d4}
+    .footer-grid a,.footer-grid p{display:block;margin:10px 0;color:#cfd7f0}
+    .socials{display:flex;gap:10px;margin-top:16px}
+    .socials span{
+      width:40px;height:40px;border-radius:999px;display:grid;place-items:center;background:rgba(10,17,38,.72);border:1px solid rgba(126,151,255,.14)
+    }
+
+    @media (max-width: 1180px){
+      .hero-grid,.split,.stats,.footer-grid{grid-template-columns:1fr}
+      .features-row,.cards-4,.arch-grid,.footer-kpis{grid-template-columns:repeat(2,1fr)}
+      .cards-3{grid-template-columns:1fr}
+      .orb-wrap{height:560px}
+      .menu{display:none}
+    }
+    @media (max-width: 760px){
+      .container{width:min(calc(100% - 28px), var(--max))}
+      .hero{padding-top:28px}
+      .hero-grid{min-height:auto}
+      .hero p{font-size:18px}
+      .hero h2{font-size:28px}
+      .features-row,.cards-4,.arch-grid,.arch-bottom,.mini-grid,.footer-kpis{grid-template-columns:1fr}
+      .orb{width:280px;height:280px}
+      .orb-label{font-size:40px}
+      .orb-node{display:none}
+      .side-copy h3{font-size:36px}
+      .card h4{font-size:24px}
+      .footer-grid{grid-template-columns:1fr 1fr}
+      .nav{height:76px}
+      .logo{font-size:24px}
+      .cta{padding:14px 18px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo"><span>SALT19</span></div>
+      <nav class="menu">
+        <a class="active" href="#hero">EvoMind</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#use-cases">Use Cases</a>
+        <a href="#validation">Validation</a>
+        <a href="#about">About</a>
+      </nav>
+      <a class="cta" href="#contact">Request Demo →</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">Introducing</p>
+            <h1>EvoMind</h1>
+            <h2>A governed cognitive architecture for real-world autonomous intelligence.</h2>
+            <p>
+              EvoMind operates autonomously on your desktop, reasoning through complexity, making governed decisions, using tools and systems, and continuously validating outcomes to deliver intelligence you can trust.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#architecture">See How It Works</a>
+              <a class="btn secondary" href="#capabilities">View Capabilities</a>
+            </div>
+          </div>
+
+          <div class="orb-wrap" aria-label="EvoMind capability diagram">
+            <div class="orb-line" style="width:175px; top:180px; left:45px; transform:rotate(180deg)"></div>
+            <div class="orb-line" style="width:170px; top:165px; right:45px;"></div>
+            <div class="orb-line" style="width:135px; top:48px; left:210px; transform:rotate(-45deg)"></div>
+            <div class="orb-line" style="width:145px; bottom:72px; left:215px; transform:rotate(45deg)"></div>
+            <div class="orb-line" style="width:140px; top:310px; left:75px; transform:rotate(24deg)"></div>
+            <div class="orb-line" style="width:145px; top:305px; right:60px; transform:rotate(-20deg)"></div>
+
+            <div class="orb-node" style="left:8px; top:132px">
+              <h4>Perception</h4>
+              <p>Sense • Ingest • Parse</p>
+            </div>
+            <div class="orb-node" style="left:50px; top:356px">
+              <h4>World Model</h4>
+              <p>Understand • Predict</p>
+            </div>
+            <div class="orb-node" style="left:222px; top:18px">
+              <h4>Meta-Cognition</h4>
+              <p>Reflect • Evaluate • Adapt</p>
+            </div>
+            <div class="orb-node" style="left:248px; bottom:10px">
+              <h4>Governance</h4>
+              <p>Policy • Safety • Audit</p>
+            </div>
+            <div class="orb-node" style="right:0; top:148px">
+              <h4>Decision Engine</h4>
+              <p>Reason • Decide • Justify</p>
+            </div>
+            <div class="orb-node" style="right:15px; top:348px">
+              <h4>Execution</h4>
+              <p>Act • Interact • Operate</p>
+            </div>
+
+            <div class="orb">
+              <div class="orb-label">EvoMind</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="features-row">
+          <div class="card">
+            <div class="icon">🛡</div>
+            <h4>Governed Autonomy</h4>
+            <p>Policies, constraints, and audits embedded in every decision.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🖥</div>
+            <h4>Desktop Action</h4>
+            <p>Secure, local execution via the Raziel Layer.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🧠</div>
+            <h4>Multi-Step Reasoning</h4>
+            <p>Deep, causal reasoning across complex task graphs.</p>
+          </div>
+          <div class="card">
+            <div class="icon">◔</div>
+            <h4>Audit-Grade Telemetry</h4>
+            <p>Complete observability with verifiable traces.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="capabilities">
+      <div class="container split">
+        <div class="side-copy">
+          <p class="eyebrow">Why EvoMind</p>
+          <h3>Cognition that’s governed, verifiable, and built for action.</h3>
+        </div>
+        <div class="cards-4">
+          <div class="card">
+            <div class="icon">🔒</div>
+            <h4>Governed Cognition</h4>
+            <p>EvoMind reasons within explicit policies and guardrails, ensuring safe, aligned, and accountable outcomes.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🧠</div>
+            <h4>Cognition Before Generation</h4>
+            <p>We think first, then act. Responses are grounded in reasoning, evidence, and validation — not pattern alone.</p>
+          </div>
+          <div class="card">
+            <div class="icon">⌘</div>
+            <h4>Desktop Execution via Raziel Layer</h4>
+            <p>Act across native apps, files, browsers, and systems securely and locally — without relying on the cloud.</p>
+          </div>
+          <div class="card">
+            <div class="icon">∞</div>
+            <h4>Continuous Validation</h4>
+            <p>Outcomes are continuously evaluated against ground truth, feedback, and telemetry to improve over time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="architecture">
+      <div class="container split">
+        <div class="side-copy">
+          <p class="eyebrow">Architecture</p>
+          <h3>A modular cognitive architecture for autonomous intelligence.</h3>
+          <p>
+            EvoMind integrates perception, reasoning, planning, execution, and governance into a closed-loop system that learns and improves.
+          </p>
+          <a href="#contact" class="cta-inline">Explore Architecture →</a>
+        </div>
+
+        <div class="arch-diagram">
+          <div class="arch-top">
+            <h4>Governance Layer</h4>
+            <p>Policies • Constraints • Safety • Compliance • Audit</p>
+          </div>
+
+          <div class="arch-grid">
+            <div class="arch-node">
+              <div class="icon">◉</div>
+              <h5>Perception</h5>
+              <p>Sense<br>Ingest<br>Parse</p>
+            </div>
+            <div class="arch-node">
+              <div class="icon">⬡</div>
+              <h5>World Model</h5>
+              <p>Understand<br>Predict<br>Simulate</p>
+            </div>
+            <div class="arch-node">
+              <div class="icon">🧠</div>
+              <h5>Meta-Cognition</h5>
+              <p>Reflect<br>Evaluate<br>Adapt</p>
+            </div>
+            <div class="arch-node">
+              <div class="icon">◌</div>
+              <h5>Decision Engine</h5>
+              <p>Reason<br>Decide<br>Justify</p>
+            </div>
+            <div class="arch-node">
+              <div class="icon">⚙</div>
+              <h5>Planning</h5>
+              <p>Decompose<br>Prioritize<br>Schedule</p>
+            </div>
+            <div class="arch-node">
+              <div class="icon">✓</div>
+              <h5>Execution</h5>
+              <p>Act<br>Use Tools<br>Operate</p>
+            </div>
+          </div>
+
+          <div class="arch-bottom">
+            <div class="arch-node" style="min-height:136px">
+              <div class="icon">🛡</div>
+              <h5>Observation</h5>
+              <p>Monitor • Collect • Detect</p>
+            </div>
+            <div class="arch-node" style="min-height:136px">
+              <div class="icon">✦</div>
+              <h5>Learning</h5>
+              <p>Update • Generalize • Improve</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="use-cases">
+      <div class="container split">
+        <div class="side-copy">
+          <p class="eyebrow">Use Cases</p>
+          <h3>Built for high-impact work across domains.</h3>
+        </div>
+
+        <div class="cards-4">
+          <div class="card">
+            <div class="icon">🏢</div>
+            <h4>Enterprise Decision Automation</h4>
+            <p>Automate complex decisions across finance, operations, risk, and compliance.</p>
+            <a href="#contact" class="more">Learn more →</a>
+          </div>
+          <div class="card">
+            <div class="icon">👤</div>
+            <h4>Autonomous Digital Worker</h4>
+            <p>A tireless desktop coworker that executes tasks across apps and systems.</p>
+            <a href="#contact" class="more">Learn more →</a>
+          </div>
+          <div class="card">
+            <div class="icon">⚗</div>
+            <h4>Research & Analysis</h4>
+            <p>Deep research, data analysis, and insight generation with verifiable reasoning.</p>
+            <a href="#contact" class="more">Learn more →</a>
+          </div>
+          <div class="card">
+            <div class="icon">⌨</div>
+            <h4>Desktop Operations</h4>
+            <p>File handling, reporting, email triage, web automation, and more — locally.</p>
+            <a href="#contact" class="more">Learn more →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="validation">
+      <div class="container split">
+        <div class="side-copy">
+          <p class="eyebrow">Validation & Trust</p>
+          <h3>Measured generality. Proven reliability. Absolute transparency.</h3>
+          <p>
+            EvoMind is validated across diverse tasks, benchmarks, and real-world operations with full auditability.
+          </p>
+          <a href="#contact" class="cta-inline">View Validation Report →</a>
+        </div>
+
+        <div>
+          <div class="stats">
+            <div class="card score">
+              <h4>EvoMind Generality Score</h4>
+              <div class="big-score">92.7 <span style="font-size:28px;color:#cdd8f7">/ 100</span></div>
+              <div class="mini">Across 12 domains · 480 tasks</div>
+              <div class="chart">
+                <svg viewBox="0 0 100 50" preserveAspectRatio="none" aria-hidden="true">
+                  <polyline fill="none" stroke="#53e0c0" stroke-width="1.3"
+                    points="0,34 12,28 24,29 36,24 48,25 60,20 72,21 84,16 100,14"/>
+                  <polyline fill="none" stroke="#7c8fbd" stroke-dasharray="2.5 2.5" stroke-width="1"
+                    points="0,42 12,38 24,36 36,39 48,43 60,39 72,38 84,31 100,30"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="card bars">
+              <h4>Capability Breakdown</h4>
+              <div class="row">
+                <div class="label"><span>Reasoning</span><span>94.1</span></div>
+                <div class="bar"><span style="width:94.1%"></span></div>
+              </div>
+              <div class="row">
+                <div class="label"><span>Planning</span><span>91.3</span></div>
+                <div class="bar"><span style="width:91.3%"></span></div>
+              </div>
+              <div class="row">
+                <div class="label"><span>Tool Use</span><span>93.0</span></div>
+                <div class="bar"><span style="width:93%"></span></div>
+              </div>
+              <div class="row">
+                <div class="label"><span>Robustness</span><span>90.2</span></div>
+                <div class="bar"><span style="width:90.2%"></span></div>
+              </div>
+              <div class="row">
+                <div class="label"><span>Adaptability</span><span>92.2</span></div>
+                <div class="bar"><span style="width:92.2%"></span></div>
+              </div>
+              <div class="row">
+                <div class="label"><span>Safety</span><span>93.6</span></div>
+                <div class="bar"><span style="width:93.6%"></span></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h4>Safety & Alignment</h4>
+              <div class="ring"><span>98.6%</span></div>
+              <div style="text-align:center;color:#dce5ff;font-size:20px;font-weight:700">Policy Adherence</div>
+              <div class="mini" style="text-align:center">High confidence</div>
+
+              <div class="mini-grid">
+                <div class="mini-card"><b>100%</b><span class="mini">Traceable Decisions</span></div>
+                <div class="mini-card"><b>100%</b><span class="mini">Logged Interactions</span></div>
+                <div class="mini-card"><b>100%</b><span class="mini">Reproducible Outcomes</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-kpis">
+            <div class="mini-card"><b>12</b><span class="mini">Benchmarks / Domains</span></div>
+            <div class="mini-card"><b>480</b><span class="mini">Tasks Evaluated</span></div>
+            <div class="mini-card"><b>94.2%</b><span class="mini">Red Teaming Pass Rate</span></div>
+            <div class="mini-card"><b>99.97%</b><span class="mini">Uptime / 30-Day Avg.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="about">
+    <div class="container footer-grid">
+      <div>
+        <div class="logo"><span>SALT19</span></div>
+        <p class="muted">Building governed, autonomous intelligence for the real world.</p>
+        <p class="mini">© 2026 SALT19. All rights reserved.</p>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <a href="#hero">EvoMind</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#validation">Security</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="#about">About</a>
+        <a href="#contact">Careers</a>
+        <a href="#contact">Blog</a>
+        <a href="#contact">News</a>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <a href="#contact">Documentation</a>
+        <a href="#contact">Research</a>
+        <a href="#validation">Validation</a>
+        <a href="#contact">Support</a>
+      </div>
+      <div id="contact">
+        <h5>Stay Connected</h5>
+        <a href="mailto:info@salt19.com">info@salt19.com</a>
+        <div class="socials">
+          <span>X</span>
+          <span>in</span>
+          <span>▶</span>
+          <span>◎</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
